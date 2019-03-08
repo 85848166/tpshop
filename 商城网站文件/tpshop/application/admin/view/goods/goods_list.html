@@ -1,0 +1,14 @@
+﻿<!--继承主体-->
+{extend name="base/body"}
+<!--重写单独的样式-->
+{block name="alone_css"}
+{include file="goods/goods/goodslist_alone_css"}
+{/block}
+<!--重写主要内容-->
+{block name="main"}
+{include file="goods/goods/goodslist_main"}
+{/block}
+<!-- 重写底部js内容 -->
+{block name="alonejs"}
+{include file="goods/goods/goodslist_alonejs"}
+{/block}

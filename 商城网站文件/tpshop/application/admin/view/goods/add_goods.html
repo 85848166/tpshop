@@ -1,0 +1,10 @@
+<!--继承主体-->
+{extend name="base/body"}
+<!--重写单独js和css-->
+{block name="alone_css"}
+{include file="goods/goods/addgoods_alone_css"}
+{/block}
+<!--重写主要的内容-->
+{block name="main"}
+{include file="goods/goods/addgoods_main"}
+{/block}

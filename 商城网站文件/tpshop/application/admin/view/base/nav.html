@@ -1,0 +1,127 @@
+<!--
+<header class="ncsc-head-layout">
+    <div class="wrapper">
+        <div class="ncsc-admin">
+            <div class="ncsc-admin-headimg">
+                <img src="../../static/picture/default_user_portrait.gif" />
+            </div>
+            <span class="user-name ncsc-admin-info" data-toggle="dropdown"></span>
+            <a class="ncsc-admin-a ncsc-admin-info" data-toggle="dropdown"><i class="ncsc-admin-i ncsc-admin-down"></i></a>
+            <a class="ncsc-admin-a h40"><i class="ncsc-admin-line"></i></a>
+            <a class="ncsc-admin-a" href="http://tp.23673.com" target="_blank"><i class="ncsc-admin-i ncsc-admin-home"></i></a>
+            <a class="ncsc-admin-a" href="http://tp.23673.com/admin/login/logout" title="安全退出管理中心"><i class="ncsc-admin-i ncsc-admin-off"></i></a>
+            <div class="user-operation dropdown-menu">
+                <a href="javascript:;" title="修改密码" onclick="editpassword()"><i class="fa fa-wrench"></i>修改密码</a>
+                <a href="javascript:;" title="更新缓存" onclick="delcache()"><i class="fa fa-send"></i>更新缓存</a>
+            </div>
+        </div>
+        <div class="center-logo">
+            <a href="http://tp.23673.com/admin"><img src="__PIC__/shop_logo.png" /></a>
+        </div>
+        <div class="index-search-container" style="position: relative;">
+            <div class="index-sitemap" onclick="nav_open()">
+                <a href="javascript:void(0);">导航管理<i class="icon-angle-down"></i></a>
+                <div class="sitemap-menu" style="display: none; z-index: 1000;">
+                    <div class="title-bar" onclick="nav_close()">
+                        <h2>
+                            <i class="icon-sitemap"></i>管理导航<em></em>
+                        </h2>
+                        <span id="closeSitemap" class="close">X</span>
+                    </div>
+                    <div id="quicklink_list" class="content">
+                        <dl>
+                            <dt>首页</dt>
+                            <dd>
+                                <a href="http://tp.23673.com/admin/index/index"> 欢迎页</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>商品</dt>
+                            <dd><a href="http://tp.23673.com/admin/goods/goodslist"> 商品列表</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/goods/addgoods"> 商品发布</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/goods/goodsgrouplist"> 商品标签</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/saleservice/consultlist"> 咨询管理</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/goods/goodscomment"> 商品评价</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/system/albumlist"> 相册管理</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/goods/recyclelist"> 商品回收站</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/goods/supplierlist"> 供货商</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>订单</dt>
+                            <dd><a href="http://tp.23673.com/admin/order/orderlist"> 订单列表</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/express/expresscompany"> 物流公司</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/order/returnsetting"> 商家地址</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/shop/pickuppointlist"> 自提点管理</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>营销</dt>
+                            <dd><a href="http://tp.23673.com/admin/promotion/coupontypelist"> 优惠券</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/promotion/mansonglist"> 满减送</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/promotion/getdiscountlist"> 限时折扣</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/promotion/fullshipping"> 满额包邮</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>店铺</dt>
+                            <dd><a href="http://tp.23673.com/admin/shop/shopconfig"> 店铺设置</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/System/goodsRecommendClass"> 促销版块</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/config/shopadlist"> 广告管理</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/Config/shopNavigationList"> 导航管理</a</dd>
+                            <dd><a href="http://tp.23673.com/admin/Shop/offlineStore"> 线下店铺</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/config/updatenotice"> 首页公告</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>用户</dt>
+                            <dd><a href="http://tp.23673.com/admin/auth/userlist"> 用户列表</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/auth/authgrouplist"> 用户组列表</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/auth/userdetail"> 个人资料</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>资产</dt>
+                            <dd><a href="http://tp.23673.com/admin/account/shopaccount"> 店铺收入</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/account/shopsalesaccount"> 销售概况</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/account/shopgoodssaleslist"> 商品分析</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/account/shopreport"> 运营报告</a></dd>
+                            <dd><a href="http://tp.23673.com/admin/account/shopgoodssalesrank"> 销售排行</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>系统</dt>
+                            <dd><a href="http://tp.23673.com/admin/system/modulelist"> 模块列表</a></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="hidden" name="act" value="search" />
+                <input type="text" id="search_goods" name="keyword" placeholder="商品搜索" class="search-input-text" />
+                <input type="submit" class="search-input-btn pngFix" onclick="search()" value="" />
+            </div>
+        </div>
+        <nav class="ncsc-nav">
+            <dl class="current_nav" onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="{:url('/admin/index')}">首页</a></dt>
+                <dd class="arrow"></dd>
+            </dl>
+            <dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="{:url('/goods/goodsList')}">商品</a></dt>
+            </dl>
+            <dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="http://tp.23673.com/admin/order/orderlist">订单</a></dt>
+            </dl>
+            <dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="http://tp.23673.com/admin/promotion/coupontypelist">营销</a></dt>
+            </dl>
+            <dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="http://tp.23673.com/admin/shop/shopconfig">店铺</a></dt>
+            </dl>
+            <dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="http://tp.23673.com/admin/auth/userlist">用户</a></dt>
+            </dl>
+            <dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="http://tp.23673.com/admin/account/shopsalesaccount">资产</a></dt>
+            </dl>
+            <dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+                <dt><a href="http://tp.23673.com/admin/system/modulelist">系统</a></dt>
+            </dl>
+        </nav>
+    </div>
+</header>-->

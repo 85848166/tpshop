@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>六星开源商城</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/product.css">
+<script src="__JS__/jquery-1.8.1.min.js"></script>
+<script src="__JS__/art_dialog.source.js"></script>
+<script src="__JS__/iframe_tools.source.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/common.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/seller_center.css">
+<script>
+	/**
+	 * 六星开源商城系统 - 团队十年电商经验汇集巨献!
+	 * ========================================================= Copy right
+	 * 2015-2025 湖南六星教育网络科技有限公司, 保留所有权利。
+	 * ---------------------------------------------- 官方网址:
+	 * http://www.sixstaredu.com 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和使用。
+	 * 任何企业和个人不允许对程序代码以任何形式任何目的再发布。
+	 * =========================================================
+	 * 
+	 * @author : 小学生Pack老师
+	 * @date : 2016年12月16日 16:17:13
+	 * @version : v1.0.0.0 商品发布中的第二步，编辑商品信息
+	 */
+	var PLATFORM_NAME = "官方直营店";
+	var ADMINIMG = "/public/admin/images";//后台图片请求路径
+	var ADMINMAIN = "http://localhost/tpshop/public/index.php";//后台请求路径
+	var UPLOAD = "";//上传文件根目录
+	var PAGESIZE = "20";//分页显示页数
+	var ROOT = "";//跟目录
+
+	//上传文件路径
+	var UPLOADGOODS = 'upload/goods/';//存放商品图片
+	var UPLOADGOODSSKU = 'upload/goods_sku/';//存放商品SKU
+	var UPLOADGOODSBRAND = 'upload/goods_brand/';//存放商品品牌图
+	var UPLOADGOODSGROUP = 'upload/goods_group/';////存放商品分组图片
+	var UPLOADGOODSCATEGORY = 'upload/goods_category/';////存放商品分类图片
+	var UPLOADCOMMON = 'upload/common/';//存放公共图片、网站logo、独立图片、没有任何关联的图片
+	var UPLOADAVATOR = 'upload/avator/';//存放用户头像
+	var UPLOADPAY = 'upload/pay/';//存放支付生成的二维码图片
+	var UPLOADADV = 'upload/advertising/';//存放广告位图片
+	var UPLOADEXPRESS = 'upload/express/';//存放物流图片
+</script>
+<script>
+
+function goodsAddCallBack(){
+	var goodsid = "0";
+	var dialog_flag = "category";
+	var box_id = "undefined";
+	var dis = $("#next_Page").attr("disabled");
+	if (dis == "disabled") {
+		return;
+	}
+	var quick_id = "";// 所选择的商品分类
+	var goods_category_name = "";
+	var selectSpan = $(".hasSelectedCategoryDiv span").last();
+	var spanList = $(".hasSelectedCategoryDiv span");
+	var count = spanList.length;
+	for (var i = 1; i < count; i++) {
+		var span = $(spanList[i]);
+		var html = span.html();
+		goods_category_name += html;
+		quick_id += span.attr("cid") + ",";// 记录用户所选择的商品类目Id，用与在快速选择商品类目中显示
+	}
+	var goods_category_id = selectSpan.attr("cid");
+	var goods_attr_id = selectSpan.attr("data-attr-id");//属性关联id
+	quick_id = quick_id.substr(0, quick_id.length - 1);
+	
+	goods_category_name = goods_category_name.replace(/\s/g, "");
+	
+	// 判断当前所选择的商品分类与Cookie中的进行查询，是否存在，不存在则添加，
+	var flag = true;// 标识，是否允许添加到Cookie中（防止出现重复数据）true:允许；flase：不允许
+	if (goods_category_quick.length > 0) {
+		for (var k = 0; k < goods_category_quick.length; k++) {
+			if (quick_id == goods_category_quick[k]["quick_id"]) {
+				flag = false;
+				break;
+			} else {
+				flag = true;
+			}
+		}
+	}
+	// 允许添加到到Cookie中
+	if (flag) {
+		var json = {
+			quick_name : $.trim(goods_category_name),
+			quick_id : quick_id,
+		};
+		goods_category_quick.push(json);
+		// alert("Cookie中没有，开始添加");
+	} else {
+		// alert("Cookie中已有，不进行重复添加操作");
+	}
+	$.ajax({
+		url : "http://localhost/tpshop/public/index.php/admin/goods/selectcategetdata",
+		type : "post",
+		data : {
+			"goods_category_id" : goods_category_id,
+			"goods_category_name" : goods_category_name,
+			"goods_category_quick" : JSON.stringify(goods_category_quick),
+			"goods_attr_id" : goods_attr_id
+		},
+		success : function(res) {
+			var win = art.dialog.open.origin;
+			win.location = "javascript:addGoodsCallBack(" + goods_category_id + ",'" + goods_category_name + "'," + goods_attr_id + ","+goodsid+",'"+dialog_flag+"','"+ box_id +"')";
+			art.dialog.close();
+			
+		}
+	});
+	
+	
+}
+</script>		
+</head>
+<body>
+<script type="text/javascript" src="__JS__/release_good_frist.js"></script>
+<input type="hidden" value="" id="category_select_ids"/>
+<input type="hidden" value="" id="category_select_names"/>
+<input type="hidden" value="undefined" id="category_extend_id"/>
+<div class="product-category">
+	<div id="selectDiv" class="selectCat">
+		<div class="sort_selector">
+			<div class="sort_title">
+				<span>您常用的商品分类：</span>
+				<div class="text" id="commSelect">
+					<div style="padding-left: 10px;">请选择</div>
+					<div class="select_list" id="commListArea"></div>
+				</div>
+				<i class="icon-angle-down"></i>
+			</div>
+		</div>
+		<div id="categoryDivContainer" class="categoryContainer">
+			<div id="selectCategoryDiv1" class="selectCategoryDiv" style="height:auto;">
+				<div class="category-search">
+					<i class="icon-search-tabao"></i>
+					<input type="text" name="search_category" placeholder="输入名称" />
+				</div>
+				<div class="categorySet">
+					{foreach $categoryOne as $key => $v}
+						<div class="categoryItem " id="{$v.id}" data-attr-id="28" onclick="ClickHasSubCategory(this)">
+							<span style="width: 170px;">{$v.category_name}</span>
+							<span>&gt;</span>
+						</div>
+					{/foreach}
+				</div>
+			</div>
+		</div>
+		<div class="cate-path">
+			<div class="hasSelectedCategoryDiv">
+				<span class="hasSelectedCategoryDivText">您当前选择的是：</span>
+			</div>
+		</div>
+	</div>
+	<div class="div-btn">
+		<a class="btn btn-info disabled" href="javascript:goodsAddCallBack();" id="next_Page">已选好类目，进入下一步</a>
+	</div>
+</div>
+
+
+</body>
+</html>

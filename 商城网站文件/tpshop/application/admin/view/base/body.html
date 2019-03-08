@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--包含头部文件-->
+	{include file="base/head"}
+	<!--包含单独的js和css-->
+	{block name="alone_css"}{/block}
+</head>
+<body>
+	<!--导航-->
+	{include file="base/nav"}
+	<!--主要内容-->
+	{block name="main"}{/block}
+	<!--修改密码弹出框-->
+	{include file="base/password"}
+	<!--导入底部文件-->
+	{include file="base/footer"}
+	<!--导入dialog插件-->
+	{include file="base/dialog"}
+	<!--底部单独js-->
+	{block name="alonejs"}{/block}
+	
+</body>
+</html>

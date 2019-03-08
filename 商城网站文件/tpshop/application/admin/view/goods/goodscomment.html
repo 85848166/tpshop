@@ -1,0 +1,1174 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+	<meta name="renderer" content="webkit" />
+	<meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"/>
+	<meta charset="UTF-8">
+			<title>官方直营店 - 商品管理</title>
+			<link rel="shortcut icon" type="image/x-icon" href="/public/admin/images/admin_icon.ico" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/bootstrap-responsive.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/seller_center.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/simple.switch.three.css" />
+		<style>
+		.wrapper{width:1268px;}
+		.help-block{color:red;}
+		.ncsc-admin-info{cursor: pointer;}
+		.ncsc-path a{text-decoration:none;}
+		.is-upgrade{width: 7px;height: 7px;background: red;border-radius: 50%;position: absolute;z-index: 5;bottom: 9px;display: none;}
+		.modal-header:hover{cursor: move;}
+		</style>
+		<script src="../../static/js/jquery-1.8.1.min.js"></script>
+		<script src="../../static/js/bootstrap.js"></script>
+		<script src="../../static/js/bootstrapswitch.js"></script>
+		<script src="../../static/js/simple.switch.js"></script>
+		<script src="../../static/js/jquery.unobtrusive-ajax.min.js"></script>
+		<script src="../../static/js/common.js"></script>
+		<script src="../../static/js/seller.js"></script>
+		<script src="../../static/js/load_task.js"></script>
+		<script src="../../static/js/load_bottom.js" type="text/javascript"></script>
+		<script src="../../static/js/jquery-ui.min.js"></script>
+		<script src="../../static/js/ns_tool.js"></script>
+		<script>
+	/**
+	 * 六星开源商城系统 - 团队十年电商经验汇集巨献!
+	 * ========================================================= Copy right
+	 * 2015-2025 湖南六星教育网络科技有限公司, 保留所有权利。
+	 * ---------------------------------------------- 官方网址:
+	 * http://www.sixstaredu.com 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和使用。
+	 * 任何企业和个人不允许对程序代码以任何形式任何目的再发布。
+	 * =========================================================
+	 * 
+	 * @author : 小学生Pack老师
+	 * @date : 2016年12月16日 16:17:13
+	 * @version : v1.0.0.0 商品发布中的第二步，编辑商品信息
+	 */
+	var PLATFORM_NAME = "官方直营店";
+	var ADMINIMG = "/public/admin/images";//后台图片请求路径
+	var ADMINMAIN = "http://tp.23673.com/admin";//后台请求路径
+	var UPLOAD = "";//上传文件根目录
+	var PAGESIZE = "20";//分页显示页数
+	var ROOT = "";//跟目录
+
+	//上传文件路径
+	var UPLOADGOODS = 'upload/goods/';//存放商品图片
+	var UPLOADGOODSSKU = 'upload/goods_sku/';//存放商品SKU
+	var UPLOADGOODSBRAND = 'upload/goods_brand/';//存放商品品牌图
+	var UPLOADGOODSGROUP = 'upload/goods_group/';////存放商品分组图片
+	var UPLOADGOODSCATEGORY = 'upload/goods_category/';////存放商品分类图片
+	var UPLOADCOMMON = 'upload/common/';//存放公共图片、网站logo、独立图片、没有任何关联的图片
+	var UPLOADAVATOR = 'upload/avator/';//存放用户头像
+	var UPLOADPAY = 'upload/pay/';//存放支付生成的二维码图片
+	var UPLOADADV = 'upload/advertising/';//存放广告位图片
+	var UPLOADEXPRESS = 'upload/express/';//存放物流图片
+</script>
+		
+<link rel="stylesheet" type="text/css" href="../../static/css/product.css">
+<style type="text/css">
+.tr-title {
+	height: 30px;
+	background: #E3E3E3;
+	border: 1px solid rgba(234, 233, 233, 0.51);
+}
+
+.fun-a {
+	margin-top: 0px;
+	padding: 6px 15px 0 15px;
+}
+
+.a-pro-view-img {
+	float: left;
+}
+
+.thumbnail-img {
+	width: 60px;
+	margin-right: 10px;
+}
+
+.cell i {
+	display: block;
+}
+
+.remodal-bg.with-red-theme.remodal-is-opening, .remodal-bg.with-red-theme.remodal-is-opened
+	{
+	filter: none;
+}
+
+.remodal-overlay.with-red-theme {
+	background-color: #f44336;
+}
+
+.remodal.with-red-theme {
+	background: #fff;
+}
+
+input[type="radio"], input[type="checkbox"] {
+	margin: -1px 5px 0;
+	margin-left: 0px;
+}
+
+.edit-group {
+	border-bottom: 1px solid #ebebeb;
+	margin-bottom: 10px;
+}
+
+.edit-group label {
+	font-weight: normal;
+}
+
+.edit-group-title {
+	height: 15px;
+	line-height: 15px;
+	width: 140px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.edit-group-button {
+	border-color: #3283fa;
+	border: 1px solid #bbb;
+	height: 26px;
+	line-height: 24px;
+	padding: 0 5px;
+}
+
+.group-button-bg {
+	background: #3283fa;
+	color: #fff;
+}
+
+.div-pro-view-name {
+	width: 75%;
+}
+
+i.hot, i.recommend, i.new {
+	font-size: 12px;
+	margin-right: 10px;
+	font-style: normal;
+	color: #fff;
+	background-color: #E84C3D;
+	border-radius: 2px;
+	padding: 1px 2px;
+}
+</style>
+<script type="text/javascript" src="../../static/js/wdatepicker.js"></script>
+
+	</head>
+<body>
+<header class="ncsc-head-layout">
+	<div class="wrapper">
+		<div class="ncsc-admin">
+			<div class="ncsc-admin-headimg">
+							<img src="../../static/picture/default_user_portrait.gif"/>
+						</div>
+			<span class="user-name ncsc-admin-info" data-toggle="dropdown"></span>
+			<a class="ncsc-admin-a ncsc-admin-info" data-toggle="dropdown"><i class="ncsc-admin-i ncsc-admin-down"></i></a>
+			<a class="ncsc-admin-a h40"><i class="ncsc-admin-line"></i></a>
+			<a class="ncsc-admin-a" href="http://tp.23673.com" target="_blank"><i class="ncsc-admin-i ncsc-admin-home"></i></a>
+			<a class="ncsc-admin-a" href="http://tp.23673.com/admin/login/logout" title="安全退出管理中心"><i class="ncsc-admin-i ncsc-admin-off"></i></a>
+			<div class="user-operation dropdown-menu">
+				<a href="javascript:;" title="修改密码" onclick="editpassword()"><i class="fa fa-wrench"></i>修改密码</a>
+				<a href="javascript:;" title="更新缓存" onclick="delcache()"><i class="fa fa-send"></i>更新缓存</a>
+			</div>
+		</div>
+		<div class="center-logo">
+			<a href="http://tp.23673.com/admin"><img src="../../static/picture/shop_logo.png"/></a>
+		</div>
+		<div class="index-search-container" style="position: relative;">
+			<div class="index-sitemap" onclick="nav_open()">
+				<a href="javascript:void(0);">导航管理<i class="icon-angle-down"></i></a>
+				<div class="sitemap-menu" style="display: none; z-index: 1000;">
+					<div class="title-bar" onclick="nav_close()">
+						<h2>
+							<i class="icon-sitemap"></i>管理导航<em></em>
+						</h2>
+						<span id="closeSitemap" class="close">X</span>
+					</div>
+					<div id="quicklink_list" class="content">
+												<dl>
+							<dt>首页</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/index/index"> 欢迎页</a>
+							</dd>
+													</dl>
+												<dl>
+							<dt>商品</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/goods/goodslist"> 商品列表</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/goods/addgoods"> 商品发布</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/goods/goodsgrouplist"> 商品标签</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/saleservice/consultlist"> 咨询管理</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/goods/goodscomment"> 商品评价</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/system/albumlist"> 相册管理</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/goods/recyclelist"> 商品回收站</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/goods/supplierlist"> 供货商</a>
+							</dd>
+													</dl>
+												<dl>
+							<dt>订单</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/order/orderlist"> 订单列表</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/express/expresscompany"> 物流公司</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/order/returnsetting"> 商家地址</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/shop/pickuppointlist"> 自提点管理</a>
+							</dd>
+													</dl>
+												<dl>
+							<dt>营销</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/promotion/coupontypelist"> 优惠券</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/promotion/mansonglist"> 满减送</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/promotion/getdiscountlist"> 限时折扣</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/promotion/fullshipping"> 满额包邮</a>
+							</dd>
+													</dl>
+												<dl>
+							<dt>店铺</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/shop/shopconfig"> 店铺设置</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/System/goodsRecommendClass"> 促销版块</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/config/shopadlist"> 广告管理</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/Config/shopNavigationList"> 导航管理</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/Shop/offlineStore"> 线下店铺</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/config/updatenotice"> 首页公告</a>
+							</dd>
+													</dl>
+												<dl>
+							<dt>用户</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/auth/userlist"> 用户列表</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/auth/authgrouplist"> 用户组列表</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/auth/userdetail"> 个人资料</a>
+							</dd>
+													</dl>
+												<dl>
+							<dt>资产</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/account/shopaccount"> 店铺收入</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/account/shopsalesaccount"> 销售概况</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/account/shopgoodssaleslist"> 商品分析</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/account/shopreport"> 运营报告</a>
+							</dd>
+														<dd>
+								<a href="http://tp.23673.com/admin/account/shopgoodssalesrank"> 销售排行</a>
+							</dd>
+													</dl>
+												<dl>
+							<dt>系统</dt>
+														<dd>
+								<a href="http://tp.23673.com/admin/system/modulelist"> 模块列表</a>
+							</dd>
+													</dl>
+											</div>
+				</div>
+			</div>
+			<div class="search-bar">
+				<input type="hidden" name="act" value="search" /> 
+				<input type="text" id="search_goods" name="keyword" placeholder="商品搜索" class="search-input-text" />
+				<input type="submit" class="search-input-btn pngFix" onclick="search()" value="" />
+			</div>
+		</div>
+		<nav class="ncsc-nav">
+						<dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/index/index">首页</a>
+									</dt>
+			</dl>
+						<dl class="current_nav" onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/goods/goodslist">商品</a>
+									</dt>
+				<dd class="arrow"></dd>
+			</dl>
+						<dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/order/orderlist">订单</a>
+									</dt>
+			</dl>
+						<dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/promotion/coupontypelist">营销</a>
+									</dt>
+			</dl>
+						<dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/shop/shopconfig">店铺</a>
+									</dt>
+			</dl>
+						<dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/auth/userlist">用户</a>
+									</dt>
+			</dl>
+						<dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/account/shopsalesaccount">资产</a>
+									</dt>
+			</dl>
+						<dl onmouseover="add_nav_class(this)" onmouseout="remove_nav_class(this)">
+				<dt>
+					<a href="http://tp.23673.com/admin/system/modulelist">系统</a>
+									</dt>
+			</dl>
+					</nav>
+	</div>
+</header>
+
+<!-- 左边菜单的加载 -->
+<div class="MAIN" style="min-height: 94vh;">
+	
+	<div class="LEFT">
+		<div id="accordion2" class="accordion leftmenu">
+			<div class="accordion-group">
+				<div class="sidebarX">
+										<img src="../../static/picture/admin_left_logo.png" />
+										<h2>商品</h2>
+				</div>
+				<div class="accordion-body collapse in" id="collapseOne">
+					<ul class="nav nav-pills nav-stacked" id="left_menu-small">
+												<li><a href="http://tp.23673.com/admin/goods/goodslist">商品列表</a></li>
+												<li><a href="http://tp.23673.com/admin/goods/addgoods">商品发布</a></li>
+												<li><a href="http://tp.23673.com/admin/goods/goodsgrouplist">商品标签</a></li>
+												<li><a href="http://tp.23673.com/admin/saleservice/consultlist">咨询管理</a></li>
+												<li class="active"><h1></h1><a href="http://tp.23673.com/admin/goods/goodscomment">商品评价</a></li>
+												<li><a href="http://tp.23673.com/admin/system/albumlist">相册管理</a></li>
+												<li><a href="http://tp.23673.com/admin/goods/recyclelist">商品回收站</a></li>
+												<li><a href="http://tp.23673.com/admin/goods/supplierlist">供货商</a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 右边主要内容的加载 -->
+	<div class="RIGHT">
+		<div class="ncsc-path">
+			<a href="http://tp.23673.com/admin"><i class="icon-desktop"></i>官方直营店</a>
+						<i class="icon-angle-right"></i>
+			<a href="http://tp.23673.com/admin/goods/goodslist">商品</a>
+						<i class="icon-angle-right"></i>
+				<!-- 需要加跳转链接用这个：http://tp.23673.com/admin/goods/goodscomment -->
+				<a href="javascript:;">商品评价</a>
+					</div>
+		<!--顶部边框开始  -->
+		<div class="tabmenu">
+			<ul class="tab pngFix">
+								<li class="active"><a href="http://tp.23673.com/admin/goods/goodscomment">商品评价</a></li>
+							</ul>
+			<div class="right_side_operation">
+				<ul>
+					
+					<li><a class="nscs-table-handle_green" href="javascript:;" style="display: none;">右侧按钮测试</a></li>
+					
+				</ul>
+			</div>
+		</div>
+		<hr class="tabmenu_hr" style="border:1px solid #00C0FF;margin:0 0px 10px 20px;"  />
+		<div class="main">
+			
+<table class="mytable">
+	<tr>
+		<th style="line-height:33px;">
+			评价时间：
+			<input type="text" id="startDate" class="input-medium" placeholder="请选择开始日期" onclick="WdatePicker()" />
+			&nbsp;-&nbsp;
+			<input type="text" id="endDate" placeholder="请选择结束日期" class="input-medium" onclick="WdatePicker()" />
+			评价用户：<input id="member_name" class="input-medium" type="text" value="" placeholder="请输入用户名称" >
+			评价类型：
+			<select id="explain_type">
+				<option value="">全部</option>
+				<option value="1">好评</option>
+				<option value="2">中评</option>
+				<option value="3">差评</option>
+			</select>
+			<input type="button" onclick="LoadingInfo(1)" value="搜索" />
+		</th>
+	</tr>
+</table>
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane active">
+		<table class="table table-striped table-main" border="0">
+			<colgroup>
+				<col style="width: 2%;">
+				<col style="width: 10%;">
+				<col style="width: 10%;">
+				<col style="width: 10%;">
+				<col style="width: 7%;">
+				<col style="width: 7%;">
+				<col style="width: 5%;">
+			</colgroup>
+			<tbody>
+				<tr class="table-title" style="background: white; z-index: 10; border: 1px solid #E3E3E3;">
+					<th></th>
+					<th colspan="2">商品</th>
+					<th>评价信息</th>
+					<th colspan="2" style="text-align: center;">评价时间</th>
+					<th style="padding-right: 35px; text-align: center;">操作</th>
+				</tr>
+				<tr class="trcss">
+					<td colspan="3">
+						<label style="display: inline-block; vertical-align: middle;">
+							<input onclick="CheckAll(this)" type="checkbox">
+							<span style="display: inline-block; margin-left: 0px; margin-right: 10px; font-weight: 400;">全选</span>
+						</label>
+						<a class="btn btn-small fun-a" href="javascript:batchDelete()">批量删除</a>
+					</td>
+					<td colspan="3" style="text-align: right;">
+						
+					</td>
+				</tr>
+			</tbody>
+			<tbody id="productTbody" style="border: 0px;">
+				<tr class="table-title" style="display: none;">
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				<!-- <tr class="tr-title" style=" width: 1502px;background: #F9F9F9">
+					<td class="td-14">
+						<label>
+							<input value="14" tj="" name="sub" data-state="undefined" type="checkbox">
+						</label>
+					</td>
+					<td colspan="2">
+						<div style="display: inline-block; width: 100%;" class="pro-code">
+							<a href="/六星开源商城_b2c/六星开源商城_b2c/shop/goods/goodsinfo?goodsid=112" target="_blank">
+								<span style="margin-right:5px;width:60px;float:left;">
+									<img src="../../static/picture/14876416314.jpg">
+								</span>
+								<span style="width: 335px;">
+									日本进口Calbee/卡乐比
+								</span>
+							</a>
+						</div>
+					</td>
+					<td>
+						<span class="pro-code" style="margin-left:10px;">		评价用户： lg
+						</span><br>
+						<span class="pro-code" style="margin-left:10px;">		用户评价： 好评
+						</span><br>
+						<span class="pro-code" style="margin-left:10px;">		用户评分： 5分
+						</span>
+					</td>
+					<td colspan="2">
+						<span class="pro-code" style="margin-left:10px;">		评价时间：2017-05-04 11:06:40
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="5" style="background: white;">
+						<p>
+							<b>评价内容:</b> 
+							<span class="evaluate_content">						为什么我老是支付失败呢
+							</span><br>
+							<span class="evaluate_content" style="margin-left: 50px;">
+								<img src="../../static/picture/14876416314.jpg" alt="">
+							</span>
+						</p>
+						<p>
+							<b>回复内容:</b> 
+							<span class="evaluate_reply">						我和店长联系请您耐心等待11
+							</span>
+						</p>
+					</td>
+					<td style="background: white;">
+						<div class="cell">
+							<div class="bs-docs-example tooltip-demo" style="text-align: center;">
+								<a href="javascript:;" data-placement="bottom" data-original-title="编辑">
+									<span class="edit" style="display: inline-block; width: 19%;" onclick="replyevaluate(12,this)">
+										<i class="icon-edit" style="width: initial;"></i>编辑
+									</span>
+								</a>
+								<a href="javascript:void(0)" data-placement="bottom" onclick="deleteevaluate(12)" data-original-title="删除">
+									<span class="del" style="display: inline-block; width: 19%;">
+										<i class="icon-trash" style="width: initial;"></i>删除
+									</span>
+								</a>
+							</div>
+						</div>
+					</td>
+				</tr> -->
+			</tbody>
+		</table>
+	</div>
+	<input type="hidden" id="replyType"> 
+</div>
+<input type="hidden" id="type" value="">
+
+<div class="modal fade hide" id="evaluate" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">评价回复</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-infp-style">
+					<table>
+						<tr>
+							<td id="myModaltype"><b>评价内容：</b></td>
+							<td id="evaluate_content"></td>
+						</tr>
+						<tr>
+							<td>回复内容:</td>
+							<td><textarea id="evaluate_reply" style="margin-top: 5px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<input type="hidden" id="evaluate_id" value="">
+				<button type="button" class="btn btn-success" data-dismiss="modal"
+					onclick="replyevaluateAjax()">保存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+		</div>
+		<script src="../../static/js/page.js"></script>
+<div class="page" id="turn-ul" style="display: none;">
+	<div class="pagination pagination-right">
+		<ul>
+			<li class="total-data">共0有条数据</li>
+			<li class="according-number">每页显示<input type="text" class="input-medium" id="showNumber" value="20" data-default="20" />条</li>
+			<li><a id="beginPage" class="page-disable" style="border: 1px solid #dddddd;">首页</a></li>
+			<li><a id="prevPage" class="page-disable">上一页</a></li>
+			<li id="pageNumber"></li>
+			<li><a id="nextPage">下一页</a></li>
+			<li><a id="lastPage">末页</a></li>
+			<li class="page-count">共0页</li>
+		</ul>
+	</div>
+</div>
+<input type="hidden" id="page_count" />
+<input type="hidden" id="page_size" />
+<script>
+$(function() {
+	try{
+		$("#turn-ul").show();//显示分页
+		LoadingInfo(1);//通过此方法调用分页类
+	}catch(e){
+		$("#turn-ul").hide();
+	}
+	
+	//首页
+	$("#beginPage").click(function() {
+		if(jumpNumber!=1){
+			jumpNumber = 1;
+			LoadingInfo(1);
+			changeClass("begin");
+		}
+		return false;
+	});
+
+	//上一页
+	$("#prevPage").click(function() {
+		var obj = $(".currentPage");
+		var index = parseInt(obj.text()) - 1;
+		if (index > 0) {
+			obj.removeClass("currentPage");
+			obj.prev().addClass("currentPage");
+			jumpNumber = index;
+			LoadingInfo(index);
+			//判断是否是第一页
+			if (index == 1) {
+				changeClass("prev");
+			} else {
+				changeClass();
+			}
+		}
+		return false;
+	});
+
+	//下一页
+	$("#nextPage").click(function() {
+		var obj = $(".currentPage");
+		//当前页加一（下一页）
+		var index = parseInt(obj.text()) + 1;
+		if (index <= $("#page_count").val()) {
+			jumpNumber = index;
+			LoadingInfo(index);
+			obj.removeClass("currentPage");
+			obj.next().addClass("currentPage");
+			//判断是否是最后一页
+			if (index == $("#page_count").val()) {
+				changeClass("next");
+			} else {
+				changeClass();
+			}
+		}
+		return false;
+	});
+
+	//末页
+	$("#lastPage").click(function() {
+		jumpNumber = $("#page_count").val();
+		if(jumpNumber>1){
+			LoadingInfo(jumpNumber);
+			$("#pageNumber a:eq("+ (parseInt($("#page_count").val()) - 1) + ")").text($("#page_count").val());
+			changeClass("next");
+		}
+		return false;
+	});
+
+	//每页显示页数
+	$("#showNumber").blur(function(){
+		if(isNaN($(this).val())){
+			$("#showNumber").val(20);
+			jumpNumber = 1;
+			LoadingInfo(jumpNumber);
+			return;
+		}
+		//页数没有变化的话，就不要再执行查询
+		if(parseInt($(this).val()) != $(this).attr("data-default")){
+// 			jumpNumber = 1;//设置每页显示的页数，并且设置到第一页
+			$(this).attr("data-default",$(this).val());
+			LoadingInfo(jumpNumber);
+		}
+		return false;
+	}).keyup(function(event){
+		if(event.keyCode == 13){
+			if(isNaN($(this).val())){
+				$("#showNumber").val(20);
+				jumpNumber = 1;
+				LoadingInfo(jumpNumber);
+			}
+			//页数没有变化的话，就不要再执行查询
+			if(parseInt($(this).val()) != $(this).attr("data-default")){
+// 				jumpNumber = 1;//设置每页显示的页数，并且设置到第一页
+				$(this).attr("data-default",$(this).val());
+				//总数据数量
+				var total_count = parseInt($(".total-data").attr("data-total-count"));
+				//计算用户输入的页数是否超过当前页数
+				var curr_count = Math.ceil(total_count/parseInt($(this).val()));
+				if( curr_count !=0 && curr_count < jumpNumber){
+					jumpNumber = curr_count;//输入的页数超过了，没有那么多
+				}
+				LoadingInfo(jumpNumber);
+			}
+		}
+		return false;
+	});
+});
+
+//跳转页面
+function JumpForPage(obj) {
+	jumpNumber = $(obj).text();
+	LoadingInfo($(obj).text());
+	$(".currentPage").removeClass("currentPage");
+	$(obj).addClass("currentPage");
+	if (jumpNumber == 1) {
+		changeClass("prev");
+	} else if (jumpNumber < parseInt($("#page_count").val())) {
+		changeClass();
+	} else if (jumpNumber == parseInt($("#page_count").val())) {
+		changeClass("next");
+	}
+}
+
+</script>
+		
+		<!-- 公共的操作提示弹出框 common-success：成功，common-warning：警告，common-error：错误，-->
+		<div class="common-tip-message js-common-tip">
+			<div class="inner"></div>
+		</div>
+	</div>
+</div>
+
+<!--修改密码弹出框 -->
+<div id="edit-password" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">修改密码</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label" for="inputPassword"><span class="color-red">*</span>原密码</label>
+				<div class="controls">
+					<input type="password" id="pwd0" placeholder="请输入原密码" />
+					<span class="help-block"></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputPassword"><span class="color-red">*</span>新密码</label>
+				<div class="controls">
+					<input type="password" id="pwd1" placeholder="请输入新密码" />
+					<span class="help-block"></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputPassword"><span class="color-red">*</span>再次输入密码</label>
+				<div class="controls">
+					<input type="password" id="pwd2" placeholder="请输入确认密码" />
+					<span class="help-block"></span>
+				</div>
+			</div>
+			<div style="text-align: center; height: 20px;" id="show"></div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-info" onclick="submitPassword()"  style="display:inline-block;">保存</button>
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+	</div>
+</div>
+
+<!--修改密码弹框结束  -->
+<div class="footer">
+	<div id="faq" style="background: #eee; padding-top: 10px;">
+		<div class="faq-wrapper"></div>
+	</div>
+	<div id="footer" class="wrapper">
+		<p>
+					</p>
+		<p style="color:#333333; display: none;" id="bottom_copyright">Copyright © 2015-2025 六星开源商城&nbsp;版权所有 保留一切权利<br><a href="http://www.sixstaredu.com" target="_blank" style="text-decoration: none;color:#333333;">湖南六星教育网络科技有限公司&nbsp;</a>
+			<span>提供技术支持&nbsp;0731-8557-3019</span>
+		</p>
+	</div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="../../static/css/jquery-ui-private.css">
+<script>
+var platform_shopname= '六星开源商城';
+</script>
+<script type="text/javascript" src="../../static/js/jquery-ui-private.js" charset="utf-8"></script>
+<script type="text/javascript" src="../../static/js/jquery.timers.js"></script>
+<div id="dialog"></div>
+<script type="text/javascript">
+function showMessage(type, message,url,time){
+	if(url == undefined){
+		url = '';
+	}
+	if(time == undefined){
+		time = 2;
+	}
+	//成功之后的跳转
+	if(type == 'success'){
+		$( "#dialog" ).dialog({
+			buttons: {
+				"确定,#51A351": function() {
+					$(this).dialog('close');
+				}
+			},
+			contentText:message,
+			time:time,
+			timeHref: url,
+		});
+	}
+	//失败之后的跳转
+	if(type == 'error'){
+		$( "#dialog" ).dialog({
+			buttons: {
+				"确定,#e57373": function() {
+					$(this).dialog('close');
+				}
+			},
+			time:time,
+			contentText:message,
+			timeHref: url,
+		});
+	}
+}
+
+function showConfirm(content){
+	$( "#dialog" ).dialog({
+		buttons: {
+			"确定": function() {
+				$(this).dialog('close');
+				return 1;
+			},
+			"取消,#e57373": function() {
+				$(this).dialog('close');
+				return 0;
+			}
+		},
+		contentText:content,
+	});
+}
+</script>
+<script src="../../static/js/ns_common_base.js"></script>
+<script>
+$(function(){
+	
+	$('.index-sitemap > a').bind("click", function() {
+		$(".sitemap-menu-arrow").slideDown("slow");
+		$(".sitemap-menu").slideDown("slow");
+	});
+	$('.add-quickmenu > a').bind("click", function() {
+		$(".sitemap-menu-arrow").slideDown("slow");
+		$(".sitemap-menu").slideDown("slow");
+	});
+	$('#closeSitemap').bind("click", function() {
+		$(".sitemap-menu-arrow").slideUp("fast");
+		$(".sitemap-menu").slideUp("fast");
+	});
+});
+function add_nav_class(doc) {
+	$(doc).addClass("hover");
+}
+
+function remove_nav_class(doc) {
+	$(doc).removeClass("hover");
+}
+
+// 显示导航管理
+function nav_open() {
+	var one = new Array();
+	var two = new Array();
+	var three = new Array();
+	$(".ncsc-head-layout .sitemap-menu dl").each(function(c, e) {
+		if (c < 5) {
+			one.push($(e).height());
+		} else if (c > 4 && c < 10) {
+			two.push($(e).height());
+		} else if (c > 9 && c < 15) {
+			three.push($(e).height());
+		}
+	})
+	$(".ncsc-head-layout .sitemap-menu dl").each(function(c, e) {
+		if (c < 5) {
+			var one_max_height = Math.max.apply(Math, one);
+			$(e).height(one_max_height);
+		} else if (c > 4 && c < 10) {
+			var two_max_height = Math.max.apply(Math, two);
+			$(e).height(two_max_height);
+		} else if (c > 9 && c < 15) {
+			var three_max_height = Math.max.apply(Math, three);
+			$(e).height(three_max_height);
+		}
+	})
+	$(".sitemap-menu-arrow").show();
+	$(".sitemap-menu").show();
+}
+// 隐藏导航管理
+function nav_close() {
+	$(".sitemap-menu-arrow").hide();
+	$(".sitemap-menu").hide();
+}
+// 系统注销菜单的控制
+var closetimer = 0;
+function exitSystemOver() {
+	cancelColseMenu();
+	$("#exit_System").css("display", "block");
+};
+
+function exitSystemOut() {
+	closetimer = window.setTimeout(mclose, 600);
+};
+
+function cancelColseMenu() {
+	window.clearTimeout(closetimer);
+	closetimer = null;
+};
+
+function mclose() {
+	$("#exit_System").css("display", "none");
+}
+</script>
+
+<script type="text/javascript">
+	/**
+	 * 隐藏商品分组
+	 */
+	function hideEditGroup(){
+		$("#editGroup").popover("hide");
+	}
+	function hideSetRecommend(){
+		$("#setRecommend").popover("hide");
+	}
+	//查询用户列表
+	function LoadingInfo(page_index) {
+		var member_name = $("#member_name").val();
+		var start_date = $("#startDate").val();
+		var end_date = $("#endDate").val();
+		var explain_type = $("#explain_type").val();
+		//alert(search);
+		$.ajax({
+			type : "post",
+			url : "http://tp.23673.com/admin/goods/goodscomment",
+			async : true,
+			data : {
+				"page_index" : page_index,
+				'page_size' : $("#showNumber").val(),
+				"start_date":start_date,
+				"end_date":end_date,
+				"member_name" : member_name,
+				"explain_type" : explain_type
+			},
+			success : function(data) {
+				//alert(JSON.stringify(data));
+				$("#pageNumber a").remove();
+				var html = '';
+				if (data["data"].length > 0) {
+					for (var i = 0; i < data["data"].length; i++) {
+						html += '<tr class="tr-title" style=" width: 1502px;background: #F9F9F9">';
+					html += '<td class="td-14">';
+					html += '<label><input value="'+data['data'][i]['id']+'" tj="" name="sub" data-state="undefined" type="checkbox"></label></td>';
+					html += '<td colspan="2"><div style="display: inline-block; width: 100%;" class="pro-code"><a href="http://tp.23673.com/goods/goodsinfo?goodsid='+data["data"][i]["goods_id"]+'" target="_blank">';
+					html += '<span style="margin-right:5px;width:60px;float:left;"><img src="../../static/picture/4c8cd98331444ab991bcbef3735b7e2d.gif'+ data["data"][i]["goods_image"]+'"></span>';
+					html += '<span style="width: 335px;">'+ data["data"][i]["goods_name"]+'</span></a></div></td>';
+					html += '<td><span class="pro-code">评价用户： '+ data["data"][i]["member_name"]+'</span><br><span class="pro-code" >';
+					switch(data["data"][i]["explain_type"]){
+						case 1:
+						html +=	'用户评价： 好评</span><br>';
+						break;
+						case 2:
+						html +=	'用户评价： 中评</span><br>';
+						break;
+						case 3:
+						html +=	'用户评价： 差评</span><br>';
+						break;
+					}
+					html += '<span class="pro-code">		用户评分： '+ data["data"][i]["scores"]+'分</span></td>';
+					html += '<td colspan="2"><span class="pro-code" style="margin-left:10px;">评价时间：'+ data["data"][i]["addtime"]+'</span></td>';
+					if(data['data'][i]['is_show'] == 1){
+						html += '<td><a href="javascript:;" title="点击隐藏" onclick="setEvaluteShowStatuAjax('+data['data'][i]['id']+');">隐藏</a>';
+						html += '<a href="javascript:void(0)" data-placement="bottom" onclick="deleteEvaluate('+data['data'][i]['id']+')" data-original-title="删除"><span class="del" style="display: inline-block;"><i class="icon-trash" style="width: initial;"></i>删除</span></a></td></tr>';
+					}else{
+						html += '<td><a href="javascript:;" title="点击显示" onclick="setEvaluteShowStatuAjax('+data['data'][i]['id']+');">显示</a>';
+						html += '<a href="javascript:void(0)" data-placement="bottom" onclick="deleteEvaluate('+data['data'][i]['id'] +')" data-original-title="删除"><span class="del" style="display: inline-block;"><i class="icon-trash" style="width: initial;"></i>删除</span></a></td></tr>';
+					}
+					html += '<tr><td colspan="6" style="background: white;"><p><b>评价内容:</b>';
+					if(data['data'][i]['content'].length > 0){
+						html +='<span class="evaluate_content">						'+data['data'][i]['content']+'</span><br>';
+						if(data['data'][i]['image']!= ''){
+							var imgs_arr=data['data'][i]['image'].split(',');
+							html += '<span class="evaluate_content" style="margin-left: 50px;">';
+							for(var key in imgs_arr){
+								html += '<img src="../../static/picture/4c8cd98331444ab991bcbef3735b7e2d.gif'+imgs_arr[key]+'" alt="" style="max-height:60px;margin-right:10px;">';
+							}
+							html += '</span></p>';
+						}
+					}else{
+						html += '<span class="evaluate_content"></span><br></p>';
+					}	
+					if(data['data'][i]['explain_first'].length > 0){
+						html += '<p><b>回复内容:</b> <span class="evaluate_reply">'+data['data'][i]['explain_first']+'</span></p></td>';
+						html += '<td style="background: white;"><div class="cell"><div class="bs-docs-example tooltip-demo" style="text-align: left;"><a href="javascript:;" data-placement="bottom" data-original-title="回复"><span class="edit" style="display: inline-block; width: 19%;" onclick="replyevaluate('+data['data'][i]['id'] +',this)"><i class="icon-edit" style="width: initial;"></i>回复</span></a></div></div></td></tr>';
+					}else{
+						html += '<td style="background: white;"><div class="cell"><div class="bs-docs-example tooltip-demo" style="text-align: left;"><a href="javascript:;" data-placement="bottom" data-original-title="回复"><span class="edit" style="display: inline-block; width: 19%;" onclick="replyevaluate('+data['data'][i]['id'] +',this)"><i class="icon-edit" style="width: initial;"></i>回复</span></a></div></div></td></tr>';
+					}
+					if(data['data'][i]['again_content'].length > 0){
+						html += '<tr><td colspan="6" style="background: white;"><p><b>追评内容:</b>';
+						html +='<span class="evaluate_content">						'+data['data'][i]['again_content']+'</span><br>';
+						if(data['data'][i]['again_image'].length > 0){
+							var imgs_arr=data['data'][i]['again_image'].split(',');
+							html += '<span class="evaluate_content" style="margin-left: 50px;">';
+							for(var key in imgs_arr){
+								html += '<img src="../../static/picture/4c8cd98331444ab991bcbef3735b7e2d.gif'+imgs_arr[key]+'" alt="" style="max-height:60px;margin-right:10px;">';
+							}
+							html += '</span></p>';
+						}
+						if (data['data'][i]['again_explain'].length > 0) {
+							html += '<p><b>追评回复:</b> <span class="evaluate_reply">'+data['data'][i]['again_explain']+'</span></p></td>';
+							html += '<td style="background: white;"><div class="cell"><div class="bs-docs-example tooltip-demo" style="text-align: left;"><a href="javascript:;" data-placement="bottom" data-original-title="回复"><span class="edit" style="display: inline-block; width: 19%;" onclick="replyevaluateAgain('+data['data'][i]['id'] +',this)"><i class="icon-edit" style="width: initial;"></i>回复</span></a>';
+						}else{
+							html += '<td style="background: white;"><div class="cell"><div class="bs-docs-example tooltip-demo" style="text-align: left;"><a href="javascript:;" data-placement="bottom" data-original-title="回复"><span class="edit" style="display: inline-block; width: 19%;" onclick="replyevaluateAgain('+data['data'][i]['id'] +',this)"><i class="icon-edit" style="width: initial;"></i>回复</span></a>';
+						}		
+						}
+					}
+				}else {
+					html += '<tr align="center"><th colspan="7" style="text-align: center;font-weight: normal;color: #999;">暂无符合条件的数据记录</th></tr>';
+				}
+				$("#productTbody").html(html);
+				initPageData(data["page_count"],data['data'].length,data['total_count']);
+				$("#pageNumber").html(pagenumShow(jumpNumber,$("#page_count").val(),5));
+			}
+		});
+	}
+
+	function batchDelete() {
+		var evaluate_id= new Array();
+		$("#productTbody input[type='checkbox']:checked").each(function() {
+			if (!isNaN($(this).val())) {
+				evaluate_id.push($(this).val());
+			}
+		});
+		if(evaluate_id.length ==0){
+			$( "#dialog" ).dialog({
+				buttons: {
+					"确定,#e57373": function() {
+						$(this).dialog('close');
+					}
+				},
+				contentText:"请选择需要操作的记录",
+				title:"消息提醒",
+			});
+			return false;
+		}
+		deleteEvaluate(evaluate_id);
+	}
+	
+	// 删除
+	function deleteEvaluate(evaluate_id){
+		$( "#dialog" ).dialog({
+            buttons: {
+                "确定": function() {
+                    $(this).dialog('close');
+                    $.ajax({
+            			type : "post",
+            			url : "http://tp.23673.com/admin/goods/deleteevaluateajax",
+            			data : {
+            				"evaluate_id" : evaluate_id.toString()
+            			},
+    					dataType : "json",
+            			success : function(data) {
+            				if(data['code'] > 0){
+            					LoadingInfo(getCurrentIndex(evaluate_id,'#productTbody','tr[class="tr-title"]'));
+            					showMessage('success', data['message']);
+            				}else{
+            					showMessage('error', data['message']);
+            				}
+            			}
+            		});
+                },"取消,#e57373" : function(){
+                    $(this).dialog('close');
+                }
+            },
+            contentText:"你确定删除吗？",
+            title:"消息提醒"
+        });
+	}
+	//全选
+	function CheckAll(event){
+		var checked = event.checked;
+		$("#productTbody input[type = 'checkbox']").prop("checked",checked);
+		
+	}
+	//回复 弹出框
+	function replyevaluate(evaluate_id, event){
+		var evaluate_content = $(event).parents('tr').find('.evaluate_content').html();
+		var evaluate_reply = $(event).parents('tr').find('.evaluate_reply').html();
+		if(evaluate_reply == undefined){
+			evaluate_reply = '';
+		}
+		$("#replyType").val(1);
+		$("#myModalLabel").text("评价回复");
+		$("#myModaltype").text("评价内容：");
+		$("#evaluate").modal('show');
+		$("#evaluate_id").val(evaluate_id);
+		$("#evaluate_content").html(evaluate_content);
+		$("#evaluate_reply").text(evaluate_reply);
+	}
+	function replyevaluateAgain(evaluate_id, event){
+		var evaluate_content = $(event).parents('tr').find('.evaluate_content').html();
+		var evaluate_reply = $(event).parents('tr').find('.evaluate_reply').html();
+		if(evaluate_reply == undefined){
+			evaluate_reply = '';
+		}
+		$("#replyType").val(2);
+		$("#myModalLabel").text("追评回复");
+		$("#myModaltype").text("追评内容：");
+		$("#evaluate").modal('show');
+		$("#evaluate_id").val(evaluate_id);
+		$("#evaluate_content").html(evaluate_content);
+		$("#evaluate_reply").text(evaluate_reply);
+	}
+	// 回复提交
+	function replyevaluateAjax(){
+		var evaluate_id = $("#evaluate_id").val();
+		var evaluate_reply = $("#evaluate_reply").val();
+		var replyType = $("#replyType").val(); //1为评价回复 2为追评回复
+		$.ajax({
+			type : "post",
+			url : "http://tp.23673.com/admin/goods/replyevaluateajax",
+			async : true,
+			data : {
+				"evaluate_id" : evaluate_id, 
+				"evaluate_reply" : evaluate_reply,
+				"replyType" : replyType
+			},
+			success : function(data) {
+				if(data['code'] > 0){
+					showMessage('success', data['message'], 'http://tp.23673.com/admin/goods/goodscomment');
+				}else{
+					showMessage('error', data['message']);
+				}
+			}
+		});
+	}
+	//设置显示状态
+	function setEvaluteShowStatuAjax(evaluate_id){
+		$.ajax({
+			type : "post",
+			url : "http://tp.23673.com/admin/goods/setevaluteshowstatuajax",
+			async : true,
+			data : {"evaluate_id" : evaluate_id},
+			success : function(data) {
+				//alert(JSON.stringify(data));
+				if(data['code'] > 0){
+					location.reload();
+				}else{
+					showMessage('error', data['message']);
+				}
+			}
+		});
+	}
+
+	document.onkeydown = function(e){ 
+	    var ev = document.all ? window.event : e;
+	    if(ev.keyCode==13) {
+	    	LoadingInfo(1);
+	    }
+	}
+</script>
+
+</body>
+</html>
